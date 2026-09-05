@@ -1,0 +1,52 @@
+info: LogiTracker.API.Controllers.DeliveryController[0]
+      Iniciando criação de entrega. VehicleId: 73a59bec-062d-402f-9593-404a69b6533f, DriverId: 72d8fe68-c850-4b47-95bf-6136c521af15, CargoId: c91d60ca-a7a4-4b51-93ac-8ff32855d7f9, TraceId: 0HNOBEMCPE7IC:00000001
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (131ms) [Parameters=[:id_0='?' (DbType = Binary)], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "Vehicles" "v"
+              WHERE "v"."Id" = :id_0) THEN 1
+          ELSE 0
+      END FROM DUAL
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[:id_0='?' (DbType = Binary)], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "Drivers" "d"
+              WHERE "d"."Id" = :id_0) THEN 1
+          ELSE 0
+      END FROM DUAL
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[:id_0='?' (DbType = Binary)], CommandType='Text', CommandTimeout='0']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM "Cargos" "c"
+              WHERE "c"."Id" = :id_0) THEN 1
+          ELSE 0
+      END FROM DUAL
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (135ms) [Parameters=[:p0='?' (DbType = Binary), :p1='?' (DbType = Int32), :p2='?' (DbType = Binary), :p3='?' (DbType = DateTime), :p4='?' (DbType = Binary), :p5='?' (DbType = DateTime), :p6='?' (DbType = Binary), :cur0='?' (Direction = Output) (DbType = Object)], CommandType='Text', CommandTimeout='0']
+      DECLARE
+      
+      TYPE "rDeliveries_0" IS RECORD
+      (
+      "Status" NUMBER(10)
+      );
+      TYPE "tDeliveries_0" IS TABLE OF "rDeliveries_0";
+      "lDeliveries_0" "tDeliveries_0";
+      
+      BEGIN
+      
+      "lDeliveries_0" := "tDeliveries_0"();
+      "lDeliveries_0".extend(1);
+      INSERT INTO "Deliveries" ("Id", "Active", "CargoId", "CreatedAt", "DriverId", "OrderDate", "VehicleId")
+      VALUES (:p0, :p1, :p2, :p3, :p4, :p5, :p6)
+      RETURNING "Status" INTO "lDeliveries_0"(1)."Status";
+      OPEN :cur0 FOR SELECT "lDeliveries_0"(1)."Status" FROM DUAL;
+      
+      END;
+info: LogiTracker.API.Controllers.DeliveryController[0]
+      Entrega criada com sucesso. DeliveryId: e67bb8b4-3571-47df-ae99-9d7a60977cc7, TraceId: 0HNOBEMCPE7IC:00000001
